@@ -1,8 +1,11 @@
 #ifndef CORE_POINT_H
 #define CORE_POINT_H
 
+#include <unordered_map>
+
 #include "eigen3/Eigen/Eigen"
 
+namespace Core {
 // 2D point with float type
 typedef Eigen::Matrix<float, 2, 1> PointXYf;
 // 2D point with double type
@@ -17,7 +20,6 @@ typedef Eigen::Matrix<double, 3, 1> PointXYZd;
 // 3D point with int type
 typedef Eigen::Matrix<int, 3, 1> PointXYZi;
 
-namespace Core {
 /**
  * This is a general point class for an N x 1 vector with the corresponding
  * variance-covariance matrix
@@ -25,10 +27,14 @@ namespace Core {
 template <typename DataType, int Dim>
 class Point : public Eigen::Matrix<DataType, Dim, 1> {
 public:
+  /// Default constructor
+  Point() = default;
+
   /// Constructor, which takes the N x 1 vector and its corresponding
   /// variance-covariance matrixs
   Point(const Eigen::Matrix<DataType, Dim, 1> &vec,
-        const Eigen::Matrix<DataType, Dim, Dim> &var);
+        const Eigen::Matrix<DataType, Dim, Dim> &var =
+            Eigen::Matrix<DataType, Dim, Dim>::Identity(Dim, Dim));
   /// N x N varaiance-covariance matrix
   Eigen::Matrix<DataType, Dim, Dim> covariance;
 };
@@ -41,13 +47,14 @@ public:
  */
 class ImagePoint : public Point<double, 2> {
 public:
+  /// Default constructor
+  ImagePoint() = default;
+
   /// Constructor, which takes input image coordinates, and
   /// variance-covariance matrix of image coordinates
-  ImagePoint(const double col, const double row, const std::string &id,
+  ImagePoint(const double col, const double row,
              const Eigen::Matrix<double, 2, 2> &var =
                  Eigen::Matrix<double, 2, 2>::Identity(2, 2));
-  /// Point Id
-  std::string pointId;
 };
 
 /**
@@ -58,11 +65,12 @@ public:
   /// Constructor, which takes the coordinates of input object point, and
   /// corresponding variance-covariance matrix
   ObjectPoint(const double x, const double y, const double z,
-              const std::string &id,
               const Eigen::Matrix<double, 3, 3> &var =
                   Eigen::Matrix<double, 3, 3>::Identity(3, 3));
-  /// PointId
-  std::string pointId;
+
+private:
+  /// {imageId, pointId} pairs for all tie points
+  std::unordered_map<std::string, std::string> mTiePointIds;
 };
 } // namespace Core
 

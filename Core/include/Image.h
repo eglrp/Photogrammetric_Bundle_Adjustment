@@ -3,11 +3,14 @@
 
 #include <unordered_map>
 
+#include "boost/filesystem.hpp"
+
 #include "Point.h"
+#include "PointCloud.h"
 
 namespace Core {
 /**
- * This is the class for Exterior Orientation Parameters (EOPs) with
+ * This is the class for image Exterior Orientation Parameters (EOPs) with
  * variance-covariance matrices
  */
 class ExteriorOrientation {
@@ -22,35 +25,25 @@ public:
  * This is the class for an image object with corresponding Exterior Orientation
  * Parameters (EOPs) and all detected image points
  */
-class Image {
+class Image : public PointCloud<ImagePoint> {
 public:
   Image() = default;
   ~Image() = default;
 
-  /**
-   * Given an image point, add it to mImagePoints
-   * @return True: if point is added to mImagePoints; False: if there is already
-   * a point with the same pointId in mImagePoints
-   */
-  bool addPoint(const Core::ImagePoint &point);
-
+  /// Accessor of mCameraId
+  const std::string &cameraId() const;
   /// Accessor of mEOPs
   const ExteriorOrientation &eop() const;
   /// Accessor of image points
-  const std::unordered_map<std::string, Core::ImagePoint> &
-  getImagePoints() const;
+  const std::unordered_map<std::string, ImagePoint> &getImagePoints() const;
 
 private:
-  /// Image Id
-  std::string &imageId;
+  /// Id for the utilized camera
+  std::string mCameraId;
   /// Exterior Orientation Parameters
   ExteriorOrientation mEOPs;
-  /**
-   * The set of image points are stored in an unodered_map
-   * key: image pointId
-   * value: image point coordinates with variance-covariance matrix
-   */
-  std::unordered_map<std::string, Core::ImagePoint> mImagePoints;
+  /// The optional image file path
+  boost::optional<boost::filesystem::path> mImageFilePath = boost::none;
 };
 } // namespace Core
 

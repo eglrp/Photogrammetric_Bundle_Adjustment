@@ -1,11 +1,16 @@
 #include "Point.h"
 #include "gtest/gtest.h"
 
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
+
 TEST(Point, PointInitialization) {
   // 2D Image point with default variance-covariance matrix
-  Core::ImagePoint imgPt(0.1f, 0.2f, "1");
-  EXPECT_EQ(imgPt[0], 0.1f);
-  EXPECT_EQ(imgPt[1], 0.2f);
+  Core::ImagePoint imgPt(0.1, 0.2);
+  EXPECT_EQ(imgPt[0], 0.1);
+  EXPECT_EQ(imgPt[1], 0.2);
   // Identity matrix
   EXPECT_EQ(imgPt.covariance(0, 0), 1.0);
   EXPECT_EQ(imgPt.covariance(0, 1), 0.0);
@@ -15,7 +20,7 @@ TEST(Point, PointInitialization) {
   // 3D point with a use-defined variance-covariance matrix
   Eigen::Matrix3d variance;
   variance << 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.1, 0.2, 0.3;
-  Core::ObjectPoint objPt(0.1f, 0.2f, 0.3f, "1", variance);
+  Core::ObjectPoint objPt(0.1, 0.2, 0.3, variance);
   // Variance-covariance matrix
   EXPECT_EQ(objPt.covariance(0, 0), 0.4);
   EXPECT_EQ(objPt.covariance(0, 1), 0.5);
