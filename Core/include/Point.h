@@ -1,8 +1,11 @@
 #ifndef CORE_POINT_H
 #define CORE_POINT_H
 
+#include <unordered_map>
+
 #include "eigen3/Eigen/Eigen"
 
+namespace Core {
 // 2D point with float type
 typedef Eigen::Matrix<float, 2, 1> PointXYf;
 // 2D point with double type
@@ -24,29 +27,34 @@ typedef Eigen::Matrix<int, 3, 1> PointXYZi;
 template <typename DataType, int Dim>
 class Point : public Eigen::Matrix<DataType, Dim, 1> {
 public:
+  /// Default constructor
+  Point() = default;
+
   /// Constructor, which takes the N x 1 vector and its corresponding
   /// variance-covariance matrixs
   Point(const Eigen::Matrix<DataType, Dim, 1> &vec,
-        const Eigen::Matrix<DataType, Dim, Dim> &var);
+        const Eigen::Matrix<DataType, Dim, Dim> &var =
+            Eigen::Matrix<DataType, Dim, Dim>::Identity(Dim, Dim));
   /// N x N varaiance-covariance matrix
   Eigen::Matrix<DataType, Dim, Dim> covariance;
 };
 
 /**
  * This is the class for a 2D image point with variance-covariance matrix
- * Note: The origin of the coordinate system is defined at the left-upper corner
- * of the image.
- * imagePoint[0]: column coordinate, and imagePoint[1]: row coordinate
+ * Note: The origin of the coordinate system is defined at the left-upper
+ * corner of the image. imagePoint[0]: column coordinate, and imagePoint[1]:
+ * row coordinate
  */
 class ImagePoint : public Point<double, 2> {
 public:
-  /// Constructor, which takes input image coordinates, and variance-covariance
-  /// matrix of image coordinates
-  ImagePoint(const double col, const double row, const std::string &id,
+  /// Default constructor
+  ImagePoint() = default;
+
+  /// Constructor, which takes input image coordinates, and
+  /// variance-covariance matrix of image coordinates
+  ImagePoint(const double col, const double row,
              const Eigen::Matrix<double, 2, 2> &var =
                  Eigen::Matrix<double, 2, 2>::Identity(2, 2));
-  /// Point Id
-  std::string pointId;
 };
 
 /**
@@ -57,27 +65,14 @@ public:
   /// Constructor, which takes the coordinates of input object point, and
   /// corresponding variance-covariance matrix
   ObjectPoint(const double x, const double y, const double z,
-              const std::string &id,
               const Eigen::Matrix<double, 3, 3> &var =
                   Eigen::Matrix<double, 3, 3>::Identity(3, 3));
-  /// PointId
-  std::string pointId;
-};
 
-/**
- * This is the class for a GNSS/INS measurements with variance-covariance
- * matrices
- */
-
-class Navigation {
-public:
-  /// GPS time tag
-  unsigned long timestamp;
-  /// X, Y, and Z coordinates of GPS measurements
-  Point<double, 3> position;
-  /// Orientation (Omega, Phi, and Kappa) of IMU measurements
-  Point<double, 3> orientation;
+private:
+  /// {imageId, pointId} pairs for all tie points
+  std::unordered_map<std::string, std::string> mTiePointIds;
 };
+} // namespace Core
 
 #include "Point.hpp"
 

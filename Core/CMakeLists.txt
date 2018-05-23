@@ -3,18 +3,35 @@ project(CoreLib)
 
 # find Eigen
 find_package(Eigen3 REQUIRED)
-# check if Eigen was found
 if(Eigen3_FOUND)
     message("Eigen3 found")
 else()
     message(FATAL_ERROR "Cannot find Eigen3")
 endif()
 
-add_library(${PROJECT_NAME}
-            src/Point.cpp)
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${EIGEN3_LIBRARIES})
+#find Boost
+find_package(BOOST REQUIRED)
+if (Boost_FOUND)
+    message("BOOST found")
+else()
+    message(FATAL_ERROR "Cannot find BOOST")
+endif()
+
+# set source files
+set(CoreLib_SRC
+    include/Camera.h
+    include/Image.h
+    include/Point.h include/Point.hpp
+    include/PointCloud.h include/PointCloud.hpp
+
+    src/Image.cpp
+    src/Point.cpp)
+
+add_library(${PROJECT_NAME} SHARED ${CoreLib_SRC})
+target_include_directories(CoreLib PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE src)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${EIGEN3_LIBRARIES} ${BOOST_LIBRARIES})
 
 # add sub-folders
-add_subdirectory(include)
 add_subdirectory(Test)
