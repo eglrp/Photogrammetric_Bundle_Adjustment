@@ -13,19 +13,20 @@ namespace Core {
  * This is the class for image Exterior Orientation Parameters (EOPs) with
  * variance-covariance matrices
  */
-class ExteriorOrientation {
+template <typename DataType> class ExteriorOrientation {
 public:
   /// Translation (X, Y, and Z coordinates)
-  Point<double, 3> position;
+  Point<DataType, 3> position;
   /// Rotation (Omega, Phi, and Kappa)
-  Point<double, 3> orientation;
+  Point<DataType, 3> orientation;
 };
 
 /**
  * This is the class for an image object with corresponding Exterior Orientation
  * Parameters (EOPs) and all detected image points
  */
-class Image : public PointCloud<ImagePoint> {
+template <typename PointType, typename DataType = double>
+class Image : public PointCloud<PointType> {
 public:
   Image() = default;
   ~Image() = default;
@@ -33,7 +34,7 @@ public:
   /// Accessor of mCameraId
   const std::string &cameraId() const;
   /// Accessor of mEOPs
-  const ExteriorOrientation &eop() const;
+  const ExteriorOrientation<DataType> &eop() const;
   /// Accessor of image points
   const std::unordered_map<std::string, ImagePoint> &getImagePoints() const;
 
@@ -41,10 +42,12 @@ private:
   /// Id for the utilized camera
   std::string mCameraId;
   /// Exterior Orientation Parameters
-  ExteriorOrientation mEOPs;
+  ExteriorOrientation<DataType> mEOPs;
   /// The optional image file path
   boost::optional<boost::filesystem::path> mImageFilePath = boost::none;
 };
 } // namespace Core
+
+#include "Image.hpp"
 
 #endif // CORE_IMAGE_H

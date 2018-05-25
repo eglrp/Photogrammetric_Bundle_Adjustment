@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 
+#include "boost/optional.hpp"
 #include "eigen3/Eigen/Eigen"
 
 namespace Core {
@@ -30,8 +31,12 @@ public:
   /// Default constructor
   Point() = default;
 
-  /// Constructor, which takes the N x 1 vector and its corresponding
-  /// variance-covariance matrixs
+  /**
+   * Constructor, which takes the N x 1 vector and its corresponding
+   * variance-covariance matrixs
+   * Note: In current implementation, we use dense matrix for
+   * variance-covaraince of the point. This can be inefficient when N is large.
+   */
   Point(const Eigen::Matrix<DataType, Dim, 1> &vec,
         const Eigen::Matrix<DataType, Dim, Dim> &var =
             Eigen::Matrix<DataType, Dim, Dim>::Identity(Dim, Dim));
@@ -40,7 +45,7 @@ public:
 };
 
 /**
- * This is the class for a 2D image point with variance-covariance matrix
+ * This is the class for a 2D point with variance-covariance matrix
  * Note: The origin of the coordinate system is defined at the left-upper
  * corner of the image. imagePoint[0]: column coordinate, and imagePoint[1]:
  * row coordinate
@@ -50,8 +55,10 @@ public:
   /// Default constructor
   ImagePoint() = default;
 
-  /// Constructor, which takes input image coordinates, and
-  /// variance-covariance matrix of image coordinates
+  /**
+   * Constructor, which takes input image coordinates, and variance-covariance
+   * matrix of image coordinates
+   */
   ImagePoint(const double col, const double row,
              const Eigen::Matrix<double, 2, 2> &var =
                  Eigen::Matrix<double, 2, 2>::Identity(2, 2));
@@ -62,8 +69,10 @@ public:
  */
 class ObjectPoint : public Point<double, 3> {
 public:
-  /// Constructor, which takes the coordinates of input object point, and
-  /// corresponding variance-covariance matrix
+  /**
+   * Constructor, which takes the coordinates of input object point, and
+   * corresponding variance-covariance matrix
+   */
   ObjectPoint(const double x, const double y, const double z,
               const Eigen::Matrix<double, 3, 3> &var =
                   Eigen::Matrix<double, 3, 3>::Identity(3, 3));

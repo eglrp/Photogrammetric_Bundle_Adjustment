@@ -12,7 +12,7 @@ TEST(Image, AddAndGetPoint) {
   Core::ImagePoint point(0.1, 0.2);
   std::string pointId = "1";
 
-  Core::Image image;
+  Core::Image<Core::ImagePoint> image;
   image.addPoint(pointId, point);
 
   auto extractedPoint = image.getPoint(pointId);
@@ -28,7 +28,7 @@ TEST(Image, AddAndDeletePoint) {
   Core::ImagePoint point(0.1, 0.2);
   std::string pointId = "1";
 
-  Core::Image image;
+  Core::Image<Core::ImagePoint> image;
   image.addPoint(pointId, point);
 
   // Delete point

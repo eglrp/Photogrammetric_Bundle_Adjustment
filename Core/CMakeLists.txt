@@ -20,11 +20,11 @@ endif()
 # set source files
 set(CoreLib_SRC
     include/Camera.h
-    include/Image.h
+    include/Image.h include/Image.hpp
+    include/ImageBlock.h
     include/Point.h include/Point.hpp
     include/PointCloud.h include/PointCloud.hpp
 
-    src/Image.cpp
     src/Point.cpp)
 
 add_library(${PROJECT_NAME} SHARED ${CoreLib_SRC})
