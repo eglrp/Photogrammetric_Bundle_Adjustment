@@ -21,7 +21,7 @@ endif()
 set(CoreLib_SRC
     include/Camera.h
     include/Image.h include/Image.hpp
-    include/ImageBlock.h
+    include/ImageBlock.h include/ImageBlock.hpp
     include/Point.h include/Point.hpp
     include/PointCloud.h include/PointCloud.hpp
 

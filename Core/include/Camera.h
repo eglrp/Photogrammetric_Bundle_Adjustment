@@ -8,7 +8,7 @@ namespace Core {
  * This is the class for Interior Orientation Parameters (IOPs) of the utilized
  * frame camera
  */
-template <typename DataType = double, int Size> class InteriorOrientation {
+template <typename DataType, int Size> class InteriorOrientation {
 public:
   // Width and Height of image
   unsigned int width;
@@ -23,7 +23,7 @@ public:
   double c;
   // Variance-covariance matrix for (xp, yp, c)
   Eigen::Matrix<DataType, 3, 3> xycCovariance =
-      Eigen::Matrix<DataType, 3, 3>::Identity<3, 3>;
+      Eigen::Matrix<DataType, 3, 3>::Identity(3, 3);
   // Distortion parameters (Size x 1 vector)
   Eigen::Matrix<DataType, Size, 1> distortionParameters;
   // Variance-covariance matrix for distortion parameters
@@ -36,7 +36,15 @@ public:
 /**
  * This is the class for frame camera
  */
-template <typename DataType> class FrameCamera {
+template <typename DataType, int Size> class FrameCamera {
+public:
+  /// Defalut constructor
+  FrameCamera() = default;
+  /// Constructor
+  FrameCamera(const std::string &referenceCameraId,
+              const ExteriorOrientation<DataType> &mountingParams,
+              const InteriorOrientation<DataType, Size> &iops);
+
 private:
   /**
    * cameraId of its reference camera
@@ -52,8 +60,8 @@ private:
    * transformation from the non-reference camera to the reference camera.
    */
   ExteriorOrientation<DataType> mMountingParameters;
-  /// Interior orientation parameters (IOPs) of this camera
-  InteriorOrientation<DataType> mIOPs;
+  /// Interior orientation parameters (IOPs) of the camera
+  InteriorOrientation<DataType, Size> mIOPs;
 };
 } // namespace Core
 

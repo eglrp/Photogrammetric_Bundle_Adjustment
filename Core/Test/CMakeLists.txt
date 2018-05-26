@@ -17,3 +17,7 @@ add_test(NAME TestPointCloud COMMAND TestPointCloud)
 add_executable(TestImage TestImage.cpp)
 target_link_libraries(TestImage ${GTEST_BOTH_LIBRARIES} CoreLib)
 add_test(NAME TestImage COMMAND TestImage)
+
+add_executable(TestImageBlock TestImageBlock.cpp)
+target_link_libraries(TestImageBlock ${GTEST_BOTH_LIBRARIES} CoreLib)
+add_test(NAME TestImageBlock COMMAND TestImageBlock)

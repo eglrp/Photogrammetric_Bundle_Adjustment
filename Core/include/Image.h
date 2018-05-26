@@ -28,6 +28,7 @@ public:
 template <typename PointType, typename DataType = double>
 class Image : public PointCloud<PointType> {
 public:
+  /// Default constructor
   Image() = default;
   ~Image() = default;
 
@@ -37,6 +38,8 @@ public:
   const ExteriorOrientation<DataType> &eop() const;
   /// Accessor of image points
   const std::unordered_map<std::string, ImagePoint> &getImagePoints() const;
+  /// Accessor of time tag
+  unsigned int getTimeTag() const;
 
 private:
   /// Id for the utilized camera
@@ -45,6 +48,8 @@ private:
   ExteriorOrientation<DataType> mEOPs;
   /// The optional image file path
   boost::optional<boost::filesystem::path> mImageFilePath = boost::none;
+  /// Time tag of the image
+  unsigned int mTimeTag;
 };
 } // namespace Core
 

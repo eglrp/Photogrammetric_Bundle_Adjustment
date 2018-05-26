@@ -17,4 +17,9 @@ Image<PointType, DataType>::getImagePoints() const {
   return this->getPoints();
 }
 
+template <typename PointType, typename DataType>
+unsigned int Image<PointType, DataType>::getTimeTag() const {
+  return mTimeTag;
+}
+
 } // namespace Core
