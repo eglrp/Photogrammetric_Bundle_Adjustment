@@ -21,18 +21,18 @@ TEST(PointCloud, BasicPointCloudOperation) {
 
   // Extract point with pointId
   auto extractedPoint1 = pointCloud.getPoint(pointId1);
-  EXPECT_EQ(extractedPoint1.value()[0], 0.1f);
-  EXPECT_EQ(extractedPoint1.value()[1], 0.2f);
-  EXPECT_EQ(extractedPoint1.value()[2], 0.3f);
+  EXPECT_EQ(extractedPoint1[0], 0.1f);
+  EXPECT_EQ(extractedPoint1[1], 0.2f);
+  EXPECT_EQ(extractedPoint1[2], 0.3f);
 
   auto extractedPoint2 = pointCloud.getPoint(pointId2);
-  EXPECT_EQ(extractedPoint2.value()[0], 0.4f);
-  EXPECT_EQ(extractedPoint2.value()[1], 0.5f);
-  EXPECT_EQ(extractedPoint2.value()[2], 0.6f);
+  EXPECT_EQ(extractedPoint2[0], 0.4f);
+  EXPECT_EQ(extractedPoint2[1], 0.5f);
+  EXPECT_EQ(extractedPoint2[2], 0.6f);
 
   // pointId3 cannot be found in pointCloud
   std::string pointId3 = "3";
-  EXPECT_TRUE(pointCloud.getPoint(pointId3) == boost::none);
+  ASSERT_THROW(pointCloud.getPoint("pointId3"), std::invalid_argument);
 
   // Get number of points
   EXPECT_EQ(pointCloud.getNumberOfPoints(), 2);

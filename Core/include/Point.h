@@ -7,6 +7,13 @@
 #include "eigen3/Eigen/Eigen"
 
 namespace Core {
+// Define PI
+#define PI 3.1415926535897932384626433832795
+// Define conversion from degree to radians
+#define DegreeToRadians PI / 180.0
+// Define conversion from radians to degree
+#define RadiansToDegree 180.0 / PI
+
 // 2D point with float type
 typedef Eigen::Matrix<float, 2, 1> PointXYf;
 // 2D point with double type

@@ -15,11 +15,11 @@ TEST(Image, AddAndGetPoint) {
   image.addPoint(pointId, point);
 
   auto extractedPoint = image.getPoint(pointId);
-  EXPECT_EQ(extractedPoint.value()[0], 0.1);
-  EXPECT_EQ(extractedPoint.value()[1], 0.2);
+  EXPECT_EQ(extractedPoint[0], 0.1);
+  EXPECT_EQ(extractedPoint[1], 0.2);
 
   // If no pointId can be found in image
-  EXPECT_TRUE(image.getPoint("2") == boost::none);
+  ASSERT_THROW(image.getPoint("2"), std::invalid_argument);
 }
 
 TEST(Image, AddAndDeletePoint) {

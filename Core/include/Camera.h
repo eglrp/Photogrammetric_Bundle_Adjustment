@@ -7,8 +7,11 @@ namespace Core {
 /**
  * This is the class for Interior Orientation Parameters (IOPs) of the utilized
  * frame camera
+ * DataType: data type of iops
+ * Size: the number of distortion parameters associated with iops (default = 7,
+ * k1, k2, k3, p1, p2, a1, a2)
  */
-template <typename DataType = double, int Size = 6> class InteriorOrientation {
+template <typename DataType = double, int Size = 7> class InteriorOrientation {
 public:
   /// Default constructor
   InteriorOrientation() = default;
@@ -30,7 +33,7 @@ public:
 /**
  * This is the class for frame camera
  */
-template <typename DataType = double, int Size = 6> class FrameCamera {
+template <typename DataType = double, int Size = 7> class FrameCamera {
 public:
   /// Defalut constructor
   FrameCamera() = default;
