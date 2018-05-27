@@ -10,10 +10,8 @@ TEST(Image, ConstructFrameCamera) {
   using DataType = double;
   // Prepare EOPs
   Core::ExteriorOrientation<DataType> mountingParams;
-  mountingParams.translation =
-      Core::Point<DataType, 3>(Eigen::Vector3d{0.1, 0.2, 0.3});
-  mountingParams.rotation =
-      Core::Point<DataType, 3>(Eigen::Vector3d{90.0, 0.0, 45.0});
+  mountingParams.SetTranslation(0.1, 0.2, 0.3);
+  mountingParams.SetRotation(90.0, 30.0, 40.0);
   // Prepare IOPs
   Core::InteriorOrientation<DataType, 4> iops;
   iops.width = 2000;

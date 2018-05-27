@@ -27,8 +27,7 @@ TEST(ImageBlock, AddAndGetImageToImageBlock) {
   imageBlock.getNumberOfImages();
 
   // Add the two images to the image block
-  std::string imageId1 = "image1";
-  imageBlock.addImage(imageId1, std::make_shared<ImageType>(image1));
+  imageBlock.addImage("image1", std::make_shared<ImageType>(image1));
   imageBlock.addImage("image2", std::make_shared<ImageType>(image2));
 
   // Check the number of images in the image block

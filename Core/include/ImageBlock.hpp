@@ -15,12 +15,12 @@ bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::addCamera(
 
 template <typename CameraType, typename ImageType, typename ObjectPointType,
           typename DataType>
-CameraType &
+std::shared_ptr<CameraType> &
 ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getCamera(
     const std::string &cameraId) {
   auto search = mCameras.find(cameraId);
   if (search != mCameras.end()) {
-    return *(search->second);
+    return search->second;
   } else {
     throw std::runtime_error(
         "Cannot find the given cameraId in the image block!");
@@ -40,12 +40,12 @@ bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::addImage(
 
 template <typename CameraType, typename ImageType, typename ObjectPointType,
           typename DataType>
-ImageType &
+std::shared_ptr<ImageType> &
 ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getImage(
     const std::string &imageId) {
   auto search = mImages.find(imageId);
   if (search != mImages.end()) {
-    return *(search->second);
+    return search->second;
   } else {
     throw std::runtime_error(
         "Cannot find the given imageId in the image block!");
@@ -67,12 +67,12 @@ bool ImageBlock<CameraType, ImageType, ObjectPointType,
 
 template <typename CameraType, typename ImageType, typename ObjectPointType,
           typename DataType>
-ObjectPointType &
+std::shared_ptr<ObjectPointType> &
 ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getObjectPoint(
     const std::string &pointId) {
   auto search = mObjectPoints.find(pointId);
   if (search != mObjectPoints.end()) {
-    return *(search->second);
+    return search->second;
   } else {
     throw std::runtime_error(
         "Cannot find the given pointId in the image block!");

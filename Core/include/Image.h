@@ -17,12 +17,63 @@ template <typename DataType = double> class ExteriorOrientation {
 public:
   /// Default constructor
   ExteriorOrientation() = default;
+  /**
+   * Set up translation
+   * @param[in] tx x component of the translation vector
+   * @param[in] ty y component of the translation vector
+   * @param[in] tz z component of the translation vector
+   * @param[in] var variance-covariance matrix of the translation vector
+   */
+  void SetTranslation(const DataType tx, const DataType ty, const DataType tz,
+                      const Eigen::Matrix<DataType, 3, 3> &var =
+                          Eigen::Matrix<DataType, 3, 3>::Identity(3, 3));
 
+  /**
+   * Set up rotation
+   * @param[in] omega rotation angle around x-axis
+   * @param[in] phi rotation angle around y-axis
+   * @param[in] kappa rotation angle around z-axis
+   * @param[in] var variance-covariance matrix of the three rotation angles
+   * @param[in] inDegreeFlag flag used to indicate the rotation is in degrees or
+   * radians (True: in degrees; False: in radians)
+   */
+  void SetRotation(const DataType omega, const DataType phi,
+                   const DataType kappa,
+                   const Eigen::Matrix<DataType, 3, 3> &var =
+                       Eigen::Matrix<DataType, 3, 3>::Identity(3, 3),
+                   const bool inDegreeFlag = true);
+
+  /// Get a copy of translation
+  Point<DataType, 3> getTranslation() const;
+
+  /// Get a copy of rotation in degrees
+  Point<DataType, 3> getRotationInDegrees() const;
+
+  /// Get a copy of rotation in radians
+  Point<DataType, 3> getRotationInRadians() const;
+
+  /// Static function to convert rotation angles to radians
+  static void ConvertRotationToRadians(Point<DataType, 3> &rotation);
+  static Point<DataType, 3>
+  ConvertRotationToRadians(const Point<DataType, 3> &rotation);
+
+  /// Static function to convert rotation angles to degrees
+  static void ConvertRotationToDegrees(Point<DataType, 3> &rotation);
+  static Point<DataType, 3>
+  ConvertRotationToDegrees(const Point<DataType, 3> &rotation);
+
+  /// Member function to convert rotation angles to radians
+  bool convertRotationToRadians();
+
+  /// Member function to convert rotation angles to degrees
+  bool convertRotationToDegrees();
+
+private:
   /// Translation (X, Y, and Z coordinates)
-  Point<DataType, 3> translation;
+  Point<DataType, 3> mTranslation;
   /// Rotation (Omega, Phi, and Kappa)
   /// Note: The default rotation angles are all in degrees.
-  Point<DataType, 3> rotation;
+  Point<DataType, 3> mRotation;
   /// The flag indicates if the rotation angles are in degrees or radians
   /// True: in degrees; False: in radians
   bool isInDegree = true;

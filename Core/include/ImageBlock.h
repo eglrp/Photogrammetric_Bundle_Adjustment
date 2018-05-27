@@ -20,20 +20,20 @@ public:
   /// Add a camera to current image block
   bool addCamera(const std::string &cameraId,
                  const std::shared_ptr<CameraType> &camera);
-  /// Get a mutable copy of camera with the given cameraId
-  CameraType &getCamera(const std::string &cameraId);
+  /// Get the pointer to the camera with the given cameraId
+  std::shared_ptr<CameraType> &getCamera(const std::string &cameraId);
 
   /// Add an image to current image block
   bool addImage(const std::string &imageId,
                 const std::shared_ptr<ImageType> &image);
-  /// Get a mutable copy of image with the given imageId
-  ImageType &getImage(const std::string &imageId);
+  /// Get the pointer to the image with the given imageId
+  std::shared_ptr<ImageType> &getImage(const std::string &imageId);
 
   /// Add an object point to current image block
   bool addObjectPoint(const std::string &pointId,
                       const std::shared_ptr<ObjectPointType> &point);
-  /// Get a mutable copy of object point with the given pointId
-  ObjectPointType &getObjectPoint(const std::string &pointId);
+  /// Get the pointer to the object point with the given pointId
+  std::shared_ptr<ObjectPointType> &getObjectPoint(const std::string &pointId);
 
   /// Get the number of the utilized cameras
   unsigned int getNumberOfCameras() const;
