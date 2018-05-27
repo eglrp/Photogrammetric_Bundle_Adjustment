@@ -8,10 +8,10 @@ int main(int argc, char **argv) {
 }
 
 TEST(ImageBlock, AddAndGetImageToImageBlock) {
-  using CameraType = Core::FrameCamera<double, 7>;
-  using ImageType = Core::Image<Core::ImagePoint>;
+  using CameraType = Core::FrameCamera<double, 6>;
+  using ImageType = Core::Image<Core::ImagePoint, double>;
   using ObjectPointType = Core::ObjectPoint;
-  Core::ImageBlock<CameraType, ImageType, ObjectPointType> imageBlock;
+  Core::ImageBlock<CameraType, ImageType, ObjectPointType, double> imageBlock;
   // Prepare two image objects
 
   unsigned int numberOfImagePoints = 10;
@@ -24,8 +24,11 @@ TEST(ImageBlock, AddAndGetImageToImageBlock) {
     image2.addPoint(imgPtId, point);
   }
 
+  imageBlock.getNumberOfImages();
+
   // Add the two images to the image block
-  imageBlock.addImage("image1", std::make_shared<ImageType>(image1));
+  std::string imageId1 = "image1";
+  imageBlock.addImage(imageId1, std::make_shared<ImageType>(image1));
   imageBlock.addImage("image2", std::make_shared<ImageType>(image2));
 
   // Check the number of images in the image block

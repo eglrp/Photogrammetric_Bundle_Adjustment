@@ -13,12 +13,19 @@ namespace Core {
  * This is the class for image Exterior Orientation Parameters (EOPs) with
  * variance-covariance matrices
  */
-template <typename DataType> class ExteriorOrientation {
+template <typename DataType = double> class ExteriorOrientation {
 public:
+  /// Default constructor
+  ExteriorOrientation() = default;
+
   /// Translation (X, Y, and Z coordinates)
-  Point<DataType, 3> position;
+  Point<DataType, 3> translation;
   /// Rotation (Omega, Phi, and Kappa)
-  Point<DataType, 3> orientation;
+  /// Note: The default rotation angles are all in degrees.
+  Point<DataType, 3> rotation;
+  /// The flag indicates if the rotation angles are in degrees or radians
+  /// True: in degrees; False: in radians
+  bool isInDegree = true;
 };
 
 /**

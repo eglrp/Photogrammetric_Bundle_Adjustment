@@ -13,6 +13,10 @@ template <typename CameraType, typename ImageType, typename ObjectPointType,
           typename DataType = double>
 class ImageBlock {
 public:
+  /// Default constructor
+  ImageBlock() = default;
+  ~ImageBlock() = default;
+
   /// Add a camera to current image block
   bool addCamera(const std::string &cameraId,
                  const std::shared_ptr<CameraType> &camera);
@@ -51,5 +55,7 @@ private:
       mNavigationData;
 };
 } // namespace Core
+
+#include "ImageBlock.hpp"
 
 #endif // CORE_IMAGEBLOCK_H

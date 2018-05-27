@@ -69,6 +69,9 @@ public:
  */
 class ObjectPoint : public Point<double, 3> {
 public:
+  /// Default constructor
+  ObjectPoint() = default;
+
   /**
    * Constructor, which takes the coordinates of input object point, and
    * corresponding variance-covariance matrix

@@ -8,42 +8,40 @@ namespace Core {
  * This is the class for Interior Orientation Parameters (IOPs) of the utilized
  * frame camera
  */
-template <typename DataType, int Size> class InteriorOrientation {
+template <typename DataType = double, int Size = 6> class InteriorOrientation {
 public:
+  /// Default constructor
+  InteriorOrientation() = default;
+
   // Width and Height of image
   unsigned int width;
   unsigned int height;
   // Pixel size
   DataType xPixelSize;
   DataType yPixelSize;
-  // Principal offset
-  DataType xp;
-  DataType yp;
-  // Principal distance
-  double c;
-  // Variance-covariance matrix for (xp, yp, c)
-  Eigen::Matrix<DataType, 3, 3> xycCovariance =
-      Eigen::Matrix<DataType, 3, 3>::Identity(3, 3);
+  // Principal offset and Pricipal distance (xp, yp, c)
+  Point<DataType, 3> xyc;
   // Distortion parameters (Size x 1 vector)
-  Eigen::Matrix<DataType, Size, 1> distortionParameters;
-  // Variance-covariance matrix for distortion parameters
-  Eigen::Matrix<DataType, Size, Size> distortionCovariance =
-      Eigen::Matrix<DataType, Size, Size>::Identity(Size, Size);
+  Point<DataType, Size> distortionParameters;
   // r0
-  double r0;
+  DataType r0;
 };
 
 /**
  * This is the class for frame camera
  */
-template <typename DataType, int Size> class FrameCamera {
+template <typename DataType = double, int Size = 6> class FrameCamera {
 public:
   /// Defalut constructor
   FrameCamera() = default;
+  ~FrameCamera() = default;
+
   /// Constructor
   FrameCamera(const std::string &referenceCameraId,
               const ExteriorOrientation<DataType> &mountingParams,
               const InteriorOrientation<DataType, Size> &iops);
+  /// Accessor of mReferenceId
+  const std::string &getReferenceCameraId() const;
 
 private:
   /**
@@ -51,7 +49,7 @@ private:
    * Note: Each camera can only have one reference camera. If cameraId ==
    * referenceCameraId, it means the camera itself is a reference camera.
    */
-  std::string referenceCameraId;
+  std::string mReferenceCameraId;
   /**
    * Mounting parameters (i.e., lever-arm and bore-sight angles)
    * Note: If this is a reference camera, the mounting parameters describes the
@@ -64,5 +62,7 @@ private:
   InteriorOrientation<DataType, Size> mIOPs;
 };
 } // namespace Core
+
+#include "Camera.hpp"
 
 #endif // CORE_CAMERA_H

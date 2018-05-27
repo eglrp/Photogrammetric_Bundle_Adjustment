@@ -33,9 +33,9 @@ bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::addImage(
     const std::string &imageId, const std::shared_ptr<ImageType> &image) {
   if (mImages.count(imageId) != 0) {
     return false;
-  } else {
-    mImages[imageId] = image;
   }
+  mImages[imageId] = image;
+  return true;
 }
 
 template <typename CameraType, typename ImageType, typename ObjectPointType,

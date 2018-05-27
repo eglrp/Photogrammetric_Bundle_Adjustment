@@ -19,7 +19,7 @@ endif()
 
 # set source files
 set(CoreLib_SRC
-    include/Camera.h
+    include/Camera.h include/Camera.hpp
     include/Image.h include/Image.hpp
     include/ImageBlock.h include/ImageBlock.hpp
     include/Point.h include/Point.hpp
