@@ -24,13 +24,13 @@ bool PointCloud<PointType>::deletePoint(const std::string &pointId) {
 }
 
 template <typename PointType>
-boost::optional<PointType>
-PointCloud<PointType>::getPoint(const std::string &pointId) const {
+PointType &PointCloud<PointType>::getPoint(const std::string &pointId) {
   auto search = mPoints.find(pointId);
   if (search != mPoints.end()) {
     return search->second;
+  } else {
+    throw std::invalid_argument("Cannot find the pointId!");
   }
-  return boost::none;
 }
 
 template <typename PointType>

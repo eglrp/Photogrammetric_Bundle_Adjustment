@@ -3,8 +3,6 @@
 
 #include <unordered_map>
 
-#include "boost/optional.hpp"
-
 namespace Core {
 /**
  * This is the class for a point cloud
@@ -29,10 +27,11 @@ public:
   bool deletePoint(const std::string &pointId);
 
   /**
-   * Return point at pointId
-   * @return If no pointId can be found, return boost::none.
+   * Get point at pointId
+   * @return A mutable copy of point with given pointId
+   * Note: If no pointId can be found, an exception will be thrown.
    */
-  boost::optional<PointType> getPoint(const std::string &pointId) const;
+  PointType &getPoint(const std::string &pointId);
 
   /**
    * Return the number of points in mImagePoints
