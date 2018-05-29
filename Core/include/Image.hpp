@@ -13,10 +13,10 @@ void ExteriorOrientation<DataType>::SetTranslation(
 template <typename DataType>
 void ExteriorOrientation<DataType>::SetRotation(
     const DataType omega, const DataType phi, const DataType kappa,
-    const Eigen::Matrix<DataType, 3, 3> &var, const bool inDegreeFlag) {
+    const bool inDegreeFlag, const Eigen::Matrix<DataType, 3, 3> &var) {
+  isInDegree = inDegreeFlag;
   mRotation =
       Point<DataType, 3>(Eigen::Matrix<DataType, 3, 1>{omega, phi, kappa}, var);
-  isInDegree = inDegreeFlag;
 }
 
 template <typename DataType>
@@ -40,6 +40,16 @@ Point<DataType, 3> ExteriorOrientation<DataType>::getRotationInRadians() const {
   } else {
     return mRotation;
   }
+}
+
+template <typename DataType>
+Point<DataType, 3> &ExteriorOrientation<DataType>::getMutableTranslation() {
+  return mTranslation;
+}
+
+template <typename DataType>
+Point<DataType, 3> &ExteriorOrientation<DataType>::getMutableRotation() {
+  return mRotation;
 }
 
 template <typename DataType>

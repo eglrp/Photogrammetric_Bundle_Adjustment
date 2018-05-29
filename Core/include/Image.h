@@ -38,10 +38,9 @@ public:
    * radians (True: in degrees; False: in radians)
    */
   void SetRotation(const DataType omega, const DataType phi,
-                   const DataType kappa,
+                   const DataType kappa, const bool inDegreeFlag = true,
                    const Eigen::Matrix<DataType, 3, 3> &var =
-                       Eigen::Matrix<DataType, 3, 3>::Identity(3, 3),
-                   const bool inDegreeFlag = true);
+                       Eigen::Matrix<DataType, 3, 3>::Identity(3, 3));
 
   /// Get a copy of translation
   Point<DataType, 3> getTranslation() const;
@@ -51,6 +50,16 @@ public:
 
   /// Get a copy of rotation in radians
   Point<DataType, 3> getRotationInRadians() const;
+
+  /// Get a mutable copy of translation
+  /// Note: This function can be used only when you want to directly modify the
+  /// content in the translation vector
+  Point<DataType, 3> &getMutableTranslation();
+
+  /// Get a mutable copy of rotation
+  /// Note: This function can be used only when you want to directly modify the
+  /// content of rotation
+  Point<DataType, 3> &getMutableRotation();
 
   /// Static function to convert rotation angles to radians
   static void ConvertRotationToRadians(Point<DataType, 3> &rotation);

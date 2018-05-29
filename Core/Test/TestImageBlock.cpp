@@ -7,23 +7,38 @@ int main(int argc, char **argv) {
   return RUN_ALL_TESTS();
 }
 
+// Prepare a global image block object
+using CameraType = Core::FrameCamera<double, 7>;
+using ImageType = Core::Image<Core::ImagePoint, double>;
+using ObjectPointType = Core::ObjectPoint;
+Core::ImageBlock<CameraType, ImageType, ObjectPointType, double> imageBlock;
+
+TEST(ImageBlock, AddCameraToImageBlock) {
+  // Prepare two camera objects
+  CameraType camera1;
+  imageBlock.addCamera("camera1", std::make_shared<CameraType>(camera1));
+  CameraType camera2;
+  imageBlock.addCamera("camera2", std::make_shared<CameraType>(camera2));
+
+  // Check the number of cameras in the image block
+  EXPECT_EQ(imageBlock.getNumberOfCameras(), 2);
+
+  // Get camera with unknown cameraId
+  ASSERT_THROW(imageBlock.getCamera("image3"), std::invalid_argument);
+}
+
 TEST(ImageBlock, AddImageToImageBlock) {
-  using CameraType = Core::FrameCamera<double, 6>;
-  using ImageType = Core::Image<Core::ImagePoint, double>;
-  using ObjectPointType = Core::ObjectPoint;
-  Core::ImageBlock<CameraType, ImageType, ObjectPointType, double> imageBlock;
   // Prepare two image objects
   unsigned int numberOfImagePoints = 10;
   ImageType image1;
   ImageType image2;
   for (unsigned int pointId = 0; pointId < numberOfImagePoints; ++pointId) {
-    Core::ImagePoint point(0.1 * pointId, 0.2 * pointId);
+    Core::ImagePoint point(0.1 * static_cast<double>(pointId),
+                           0.2 * static_cast<double>(pointId));
     std::string imgPtId = std::to_string(pointId);
     image1.addPoint(imgPtId, point);
     image2.addPoint(imgPtId, point);
   }
-
-  imageBlock.getNumberOfImages();
 
   // Add the two images to the image block
   imageBlock.addImage("image1", std::make_shared<ImageType>(image1));
@@ -41,4 +56,70 @@ TEST(ImageBlock, AddImageToImageBlock) {
     EXPECT_EQ(point[1], extractedPoint[1]);
     EXPECT_EQ(point[2], extractedPoint[2]);
   }
+
+  // Get image with unknown imageId
+  ASSERT_THROW(imageBlock.getImage("image3"), std::invalid_argument);
+}
+
+TEST(ImageBlock, AddObjectPointToImageBlock) {
+  // Prepare object points
+  unsigned int numberOfObjectPoints = 10;
+  for (unsigned int pointId = 0; pointId < numberOfObjectPoints; ++pointId) {
+    ObjectPointType point(0.1 * static_cast<double>(pointId),
+                          0.2 * static_cast<double>(pointId),
+                          0.3 * static_cast<double>(pointId));
+    imageBlock.addObjectPoint(std::to_string(pointId),
+                              std::make_shared<ObjectPointType>(point));
+  }
+
+  // Check the number of object points in the image block
+  EXPECT_EQ(imageBlock.getNumberOfObjectPoints(), numberOfObjectPoints);
+
+  // Compare every object point
+  for (unsigned int pointId = 0; pointId < numberOfObjectPoints; ++pointId) {
+    auto extractedPoint = imageBlock.getObjectPoint(std::to_string(pointId));
+    EXPECT_EQ(extractedPoint[0], 0.1 * static_cast<double>(pointId));
+    EXPECT_EQ(extractedPoint[1], 0.2 * static_cast<double>(pointId));
+    EXPECT_EQ(extractedPoint[2], 0.3 * static_cast<double>(pointId));
+  }
+
+  // Get object points with unknown pointId
+  ASSERT_THROW(imageBlock.getObjectPoint(std::to_string(numberOfObjectPoints)),
+               std::invalid_argument);
+}
+
+TEST(ImageBlock, AddNavigationDataToImageBlock) {
+  using NavigationType = Core::ExteriorOrientation<double>;
+  // Prepare navigation data (GNSS/INS measurements)
+  unsigned int numberOfNavigationMeasurements = 10;
+  for (unsigned int navigationId = 0;
+       navigationId < numberOfNavigationMeasurements; ++navigationId) {
+    NavigationType navigationMeasurement;
+    navigationMeasurement.SetTranslation(
+        0.1 * static_cast<double>(navigationId),
+        0.2 * static_cast<double>(navigationId),
+        0.3 * static_cast<double>(navigationId));
+    navigationMeasurement.SetRotation(45.0, 30.0, 90.0);
+    imageBlock.addNavigationData(
+        navigationId, std::make_shared<NavigationType>(navigationMeasurement));
+  }
+  // Check number of navigation measurements
+  EXPECT_EQ(imageBlock.getNumberOfNavigationMeasurements(),
+            numberOfNavigationMeasurements);
+  // Get the 1st navigation measurement (i.e., timestamp = 1)
+  auto extractedNavigationMeasurement = imageBlock.getNavigationMeasurement(1);
+  // Compare translation
+  auto translation = extractedNavigationMeasurement->getTranslation();
+  EXPECT_EQ(translation[0], 0.1);
+  EXPECT_EQ(translation[1], 0.2);
+  EXPECT_EQ(translation[2], 0.3);
+  // Compare rotation
+  auto rotation = extractedNavigationMeasurement->getRotationInDegrees();
+  EXPECT_EQ(rotation[0], 45.0);
+  EXPECT_EQ(rotation[1], 30.0);
+  EXPECT_EQ(rotation[2], 90.0);
+  // Get timestamp = 10
+  ASSERT_THROW(
+      imageBlock.getNavigationMeasurement(numberOfNavigationMeasurements),
+      std::invalid_argument);
 }
