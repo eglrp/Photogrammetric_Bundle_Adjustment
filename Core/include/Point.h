@@ -87,7 +87,6 @@ public:
               const Eigen::Matrix<double, 3, 3> &var =
                   Eigen::Matrix<double, 3, 3>::Identity(3, 3));
 
-private:
   /// {imageId, pointId} pairs for all tie points
   std::unordered_map<std::string, std::string> mTiePointIds;
 };

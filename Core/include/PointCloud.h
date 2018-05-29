@@ -27,11 +27,17 @@ public:
   bool deletePoint(const std::string &pointId);
 
   /**
-   * Get point at pointId
-   * @return A mutable copy of point with given pointId
-   * Note: If no pointId can be found, an exception will be thrown.
+   * Get a copy of point at pointId
+   * Note: This function will return a new copy of the point.
    */
-  PointType &getPoint(const std::string &pointId);
+  const PointType &getPoint(const std::string &pointId) const;
+
+  /**
+   * Get a mutable copy of point at pointId
+   * Note: This function can be used only when you want to modify the inner
+   * content of the point cloud
+   */
+  PointType &getMutablePoint(const std::string &pointId);
 
   /**
    * Return the number of points in mImagePoints
