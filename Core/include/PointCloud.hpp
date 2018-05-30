@@ -35,7 +35,7 @@ PointCloud<PointType>::getPoint(const std::string &pointId) const {
 }
 
 template <typename PointType>
-PointType &PointCloud<PointType>::getMutablePoint(const std::string &pointId) {
+PointType &PointCloud<PointType>::getPoint(const std::string &pointId) {
   auto search = mPoints.find(pointId);
   if (search != mPoints.end()) {
     return search->second;
