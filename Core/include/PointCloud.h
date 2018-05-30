@@ -37,7 +37,7 @@ public:
    * Note: This function can be used only when you want to modify the inner
    * content of the point cloud
    */
-  PointType &getMutablePoint(const std::string &pointId);
+  PointType &getPoint(const std::string &pointId);
 
   /**
    * Return the number of points in mImagePoints
