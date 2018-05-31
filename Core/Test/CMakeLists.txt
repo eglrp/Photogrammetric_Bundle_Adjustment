@@ -25,3 +25,7 @@ add_test(NAME TestCamera COMMAND TestCamera)
 add_executable(TestImageBlock TestImageBlock.cpp)
 target_link_libraries(TestImageBlock ${GTEST_BOTH_LIBRARIES} CoreLib)
 add_test(NAME TestImageBlock COMMAND TestImageBlock)
+
+add_executable(TestExteriorOrientation TestExteriorOrientation.cpp)
+target_link_libraries(TestExteriorOrientation ${GTEST_BOTH_LIBRARIES} CoreLib)
+add_test(NAME TestExteriorOrientation COMMAND TestExteriorOrientation)

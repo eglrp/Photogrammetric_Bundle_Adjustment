@@ -161,14 +161,14 @@ ExteriorOrientation<DataType>::CreateRotationMatrixFromEulerAnglesInDegrees(
     const Eigen::Matrix<DataType, 3, 1> &rotationAngles) {
   Eigen::Matrix<DataType, 3, 1> anglesInRadians =
       rotationAngles * DegreeToRadians;
-  return CreateRotationMatrixFromAnglesInRadians(anglesInRadians);
+  return CreateRotationMatrixFromEluerAnglesInRadians(anglesInRadians);
 }
 
 template <typename DataType>
 Eigen::Matrix<DataType, 3, 1>
 ExteriorOrientation<DataType>::GetEulerAnglesInRadiansFromRotationMatrix(
     const Eigen::Matrix<DataType, 3, 3> &rotationMatrix) {
-
+  // Note: phi has to be in the range of [-pi/2, pi/2].
   const DataType phi = std::asin(rotationMatrix(0, 2));
   // Compute cos(Phi)
   const DataType cosp = std::cos(phi);
