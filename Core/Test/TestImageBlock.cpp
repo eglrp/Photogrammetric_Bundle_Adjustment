@@ -1,6 +1,10 @@
 #include "ImageBlock.h"
 #include "Point.h"
+#include "RandomNumber.h"
+
 #include "gtest/gtest.h"
+
+#include <time.h>
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
@@ -8,10 +12,11 @@ int main(int argc, char **argv) {
 }
 
 // Prepare a global image block object
-using CameraType = Core::FrameCamera<double, 7>;
-using ImageType = Core::Image<Core::ImagePoint, double>;
+using DataType = double;
+using CameraType = Core::FrameCamera<DataType, 7>;
+using ImageType = Core::Image<Core::ImagePoint, DataType>;
 using ObjectPointType = Core::ObjectPoint;
-Core::ImageBlock<CameraType, ImageType, ObjectPointType, double> imageBlock;
+Core::ImageBlock<CameraType, ImageType, ObjectPointType, DataType> imageBlock;
 
 TEST(ImageBlock, AddCameraToImageBlock) {
   // Prepare two camera objects
@@ -50,11 +55,9 @@ TEST(ImageBlock, AddImageToImageBlock) {
   auto extractedImage = imageBlock.getImage("image1");
   EXPECT_EQ(extractedImage->getNumberOfPoints(), numberOfImagePoints);
   for (unsigned int pointId = 0; pointId < numberOfImagePoints; ++pointId) {
-    auto point = image1.getPoint(std::to_string(pointId));
     auto extractedPoint = image1.getPoint(std::to_string(pointId));
-    EXPECT_EQ(point[0], extractedPoint[0]);
-    EXPECT_EQ(point[1], extractedPoint[1]);
-    EXPECT_EQ(point[2], extractedPoint[2]);
+    EXPECT_EQ(extractedPoint[0], 0.1 * static_cast<double>(pointId));
+    EXPECT_EQ(extractedPoint[1], 0.2 * static_cast<double>(pointId));
   }
 
   // Get image with unknown imageId
