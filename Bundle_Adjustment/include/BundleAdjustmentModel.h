@@ -10,9 +10,15 @@
 namespace BundleAdjustment {
 class BundleAdjustmentModel {
 public:
-  // Defalut constructor and destructor
+  /// Defalut constructor and destructor
   BundleAdjustmentModel() = default;
   ~BundleAdjustmentModel() = default;
+
+  /**
+   * This is the struct containing the collinearity model for platforms equipped
+   * with either single or multiple frame cameras
+   */
+  struct CollinearityFrameCameraCost {};
 };
 } // namespace BundleAdjustment
 

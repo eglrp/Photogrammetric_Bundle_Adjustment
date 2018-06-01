@@ -25,6 +25,7 @@ set(CoreLib_SRC
     include/ImageBlock.h include/ImageBlock.hpp
     include/Point.h include/Point.hpp
     include/PointCloud.h include/PointCloud.hpp
+    include/RandomNumber.h include/RandomNumber.hpp
 
     src/Point.cpp)
 
