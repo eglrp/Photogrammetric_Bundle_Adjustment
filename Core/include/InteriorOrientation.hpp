@@ -79,4 +79,23 @@ InteriorOrientation<TDataType, Size>::addDistortion(
   }
   return Eigen::Matrix<TDataType, 2, 1>{xUpdated + xp, yUpdated + yp};
 }
+
+template <typename TDataType, int Size>
+Eigen::Matrix<TDataType, 2, 1>
+InteriorOrientation<TDataType, Size>::ConvertPixelToImageCoordinates(
+    const TDataType row, const TDataType col) {
+  TDataType x = (col - width * 0.5) * xPixelSize;
+  TDataType y = (height * 0.5 - row) * yPixelSize;
+  return Eigen::Matrix<TDataType, 2, 1>{x, y};
+}
+
+template <typename TDataType, int Size>
+Eigen::Matrix<TDataType, 2, 1>
+InteriorOrientation<TDataType, Size>::ConvertImageCoordinatesToPixel(
+    const TDataType x, const TDataType y) {
+  TDataType row = height * 0.5 - y / yPixelSize;
+  TDataType col = x / xPixelSize + width * 0.5;
+  return Eigen::Matrix<TDataType, 2, 1>(row, col);
+}
+
 } // namespace Core

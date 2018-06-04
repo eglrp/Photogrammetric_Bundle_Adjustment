@@ -38,12 +38,28 @@ public:
    * @param[in] tolerance Tolerance to stop adding distortion (default = 1e-6)
    * @param[in] maxIteration Maximum number of iterations to add distortion
    * (default = 100)
-   * @return A 2 x 1 vector of image coordinates with distortions
+   * @return A 2 x 1 vector of image coordinates after adding distortions and
+   * principal offset
    */
   Eigen::Matrix<TDataType, 2, 1>
   addDistortion(const TDataType x, const TDataType y,
                 const TDataType tolerance = 1e-6,
                 const unsigned int maxIteration = 100);
+
+  /**
+   * This function converts pixel location (i.e, row and col) to local image
+   * coordinate system (origin is defined at image center; x is pointing to
+   * right, and y is pointing up).
+   */
+  Eigen::Matrix<TDataType, 2, 1>
+  ConvertPixelToImageCoordinates(const TDataType row, const TDataType col);
+
+  /**
+   * This function converts image coordinates to corresponding pixel location
+   * (i.e., row and col)
+   */
+  Eigen::Matrix<TDataType, 2, 1>
+  ConvertImageCoordinatesToPixel(const TDataType x, const TDataType y);
 
   /// Width and Height of image
   unsigned int width;
