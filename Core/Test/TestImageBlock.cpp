@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
 
 // Prepare a global image block object
 using DataType = double;
-using CameraType = Core::FrameCamera<DataType, 7>;
+using CameraType = Core::FrameCamera<DataType, 9>;
 using ImageType = Core::Image<Core::ImagePoint, DataType>;
 using ObjectPointType = Core::ObjectPoint;
 Core::ImageBlock<CameraType, ImageType, ObjectPointType, DataType> imageBlock;

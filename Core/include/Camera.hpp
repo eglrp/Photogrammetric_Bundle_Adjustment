@@ -1,16 +1,17 @@
 #include "Camera.h"
 
 namespace Core {
-template <typename DataType, int Size>
-FrameCamera<DataType, Size>::FrameCamera(
+template <typename TDataType, int Size>
+FrameCamera<TDataType, Size>::FrameCamera(
     const std::string &referenceCameraId,
-    const ExteriorOrientation<DataType> &mountingParams,
-    const InteriorOrientation<DataType, Size> &iops)
-    : mReferenceCameraId(referenceCameraId),
-      mMountingParameters(mountingParams), mIOPs(iops) {}
+    const ExteriorOrientation<TDataType> &mountingParams,
+    const InteriorOrientation<TDataType, Size> &iops)
+    : ExteriorOrientation<TDataType>(mountingParams),
+      InteriorOrientation<TDataType, Size>(iops),
+      mReferenceCameraId(referenceCameraId) {}
 
-template <typename DataType, int Size>
-const std::string &FrameCamera<DataType, Size>::getReferenceCameraId() const {
+template <typename TDataType, int Size>
+const std::string &FrameCamera<TDataType, Size>::getReferenceCameraId() const {
   return mReferenceCameraId;
 }
 

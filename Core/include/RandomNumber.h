@@ -10,9 +10,9 @@ namespace Core {
  * This is a wrapper class of boost::random for generating random numbers with
  * different types of distributions
  */
-template <typename DistributionType> class RandomNumber {
+template <typename TDistributionType> class RandomNumber {
 public:
-  using DataType = typename DistributionType::result_type;
+  using DataType = typename TDistributionType::result_type;
 
   /**
    * Constructor to initialize the random number generator for the range of
@@ -29,7 +29,7 @@ public:
 
 private:
   boost::random::mt19937 mGenerator;
-  boost::random::variate_generator<boost::mt19937 &, DistributionType>
+  boost::random::variate_generator<boost::mt19937 &, TDistributionType>
       mRandomNumberGenerator;
 };
 // Double random number generator with uniform distribution

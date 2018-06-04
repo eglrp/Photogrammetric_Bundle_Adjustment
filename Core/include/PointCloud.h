@@ -7,7 +7,7 @@ namespace Core {
 /**
  * This is the class for a point cloud
  */
-template <typename PointType> class PointCloud {
+template <typename TPointType> class PointCloud {
 public:
   /// Default constructor
   PointCloud() = default;
@@ -17,7 +17,7 @@ public:
    * @return True: if point is added to mPoints; False: if the pointId is
    * already in mImagePoints
    */
-  bool addPoint(const std::string &pointId, const PointType &point);
+  bool addPoint(const std::string &pointId, const TPointType &point);
 
   /**
    * Delete point at pointId from mPoints
@@ -30,14 +30,14 @@ public:
    * Get a copy of point at pointId
    * Note: This function will return a new copy of the point.
    */
-  const PointType &getPoint(const std::string &pointId) const;
+  const TPointType &getPoint(const std::string &pointId) const;
 
   /**
    * Get a mutable copy of point at pointId
    * Note: This function can be used only when you want to modify the inner
    * content of the point cloud
    */
-  PointType &getPoint(const std::string &pointId);
+  TPointType &getPoint(const std::string &pointId);
 
   /**
    * Return the number of points in mImagePoints
@@ -47,11 +47,11 @@ public:
   /**
    * Return the set of points
    */
-  const std::unordered_map<std::string, PointType> &getPoints() const;
+  const std::unordered_map<std::string, TPointType> &getPoints() const;
 
 private:
   /// The set of points are stored in an unordered_map
-  std::unordered_map<std::string, PointType> mPoints;
+  std::unordered_map<std::string, TPointType> mPoints;
 };
 } // namespace Core
 

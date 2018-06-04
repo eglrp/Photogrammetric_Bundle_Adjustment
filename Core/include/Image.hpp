@@ -1,19 +1,14 @@
 #include "Image.h"
 
 namespace Core {
-template <typename PointType, typename DataType>
-const std::string &Image<PointType, DataType>::cameraId() const {
+template <typename TPointType, typename TDataType>
+const std::string &Image<TPointType, TDataType>::cameraId() const {
   return mCameraId;
 }
 
-template <typename PointType, typename DataType>
-const ExteriorOrientation<DataType> &Image<PointType, DataType>::eop() const {
-  return mEOPs;
-}
-
-template <typename PointType, typename DataType>
+template <typename TPointType, typename TDataType>
 const std::unordered_map<std::string, ImagePoint> &
-Image<PointType, DataType>::getImagePoints() const {
+Image<TPointType, TDataType>::getImagePoints() const {
   return this->getPoints();
 }
 

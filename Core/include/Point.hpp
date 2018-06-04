@@ -1,8 +1,8 @@
 #include "Point.h"
 
 namespace Core {
-template <typename DataType, int Dim>
-Point<DataType, Dim>::Point(const Eigen::Matrix<DataType, Dim, 1> &vec,
-                            const Eigen::Matrix<DataType, Dim, Dim> &var)
-    : Eigen::Matrix<DataType, Dim, 1>(vec), covariance(var) {}
+template <typename TDataType, int Dim>
+Point<TDataType, Dim>::Point(const Eigen::Matrix<TDataType, Dim, 1> &vec,
+                             const Eigen::Matrix<TDataType, Dim, Dim> &var)
+    : Eigen::Matrix<TDataType, Dim, 1>(vec), covariance(var) {}
 } // namespace Core

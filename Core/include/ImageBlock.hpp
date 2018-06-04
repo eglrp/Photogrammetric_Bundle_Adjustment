@@ -1,10 +1,12 @@
 #include "ImageBlock.h"
 
 namespace Core {
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::addCamera(
-    const std::string &cameraId, const std::shared_ptr<CameraType> &camera) {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+bool ImageBlock<TCameraType, TImageType, TObjectPointType,
+                TDataType>::addCamera(const std::string &cameraId,
+                                      const std::shared_ptr<TCameraType>
+                                          &camera) {
   if (mCameras.count(cameraId) != 0) {
     return false;
   } else {
@@ -13,10 +15,10 @@ bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::addCamera(
   }
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-std::shared_ptr<CameraType>
-ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getCamera(
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+std::shared_ptr<TCameraType>
+ImageBlock<TCameraType, TImageType, TObjectPointType, TDataType>::getCamera(
     const std::string &cameraId) {
   auto search = mCameras.find(cameraId);
   if (search != mCameras.end()) {
@@ -27,10 +29,10 @@ ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getCamera(
   }
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::addImage(
-    const std::string &imageId, const std::shared_ptr<ImageType> &image) {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+bool ImageBlock<TCameraType, TImageType, TObjectPointType, TDataType>::addImage(
+    const std::string &imageId, const std::shared_ptr<TImageType> &image) {
   if (mImages.count(imageId) != 0) {
     return false;
   }
@@ -38,10 +40,10 @@ bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::addImage(
   return true;
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-std::shared_ptr<ImageType>
-ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getImage(
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+std::shared_ptr<TImageType>
+ImageBlock<TCameraType, TImageType, TObjectPointType, TDataType>::getImage(
     const std::string &imageId) {
   auto search = mImages.find(imageId);
   if (search != mImages.end()) {
@@ -52,12 +54,11 @@ ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getImage(
   }
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-bool ImageBlock<CameraType, ImageType, ObjectPointType,
-                DataType>::addObjectPoint(const std::string &pointId,
-                                          const std::shared_ptr<ObjectPointType>
-                                              &point) {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+bool ImageBlock<TCameraType, TImageType, TObjectPointType, TDataType>::
+    addObjectPoint(const std::string &pointId,
+                   const std::shared_ptr<TObjectPointType> &point) {
   if (mObjectPoints.count(pointId) != 0) {
     return false;
   } else {
@@ -66,11 +67,11 @@ bool ImageBlock<CameraType, ImageType, ObjectPointType,
   }
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-ObjectPointType &
-ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getObjectPoint(
-    const std::string &pointId) {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+TObjectPointType &
+ImageBlock<TCameraType, TImageType, TObjectPointType,
+           TDataType>::getObjectPoint(const std::string &pointId) {
   auto search = mObjectPoints.find(pointId);
   if (search != mObjectPoints.end()) {
     return *(search->second);
@@ -80,12 +81,12 @@ ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::getObjectPoint(
   }
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+bool ImageBlock<TCameraType, TImageType, TObjectPointType, TDataType>::
     addNavigationData(
         const unsigned int timestamp,
-        const std::shared_ptr<ExteriorOrientation<DataType>> &navigation) {
+        const std::shared_ptr<ExteriorOrientation<TDataType>> &navigation) {
   if (mNavigationData.count(timestamp) != 0) {
     return false;
   } else {
@@ -94,11 +95,11 @@ bool ImageBlock<CameraType, ImageType, ObjectPointType, DataType>::
   }
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-std::shared_ptr<ExteriorOrientation<DataType>>
-ImageBlock<CameraType, ImageType, ObjectPointType,
-           DataType>::getNavigationMeasurement(const unsigned int timestamp) {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+std::shared_ptr<ExteriorOrientation<TDataType>>
+ImageBlock<TCameraType, TImageType, TObjectPointType,
+           TDataType>::getNavigationMeasurement(const unsigned int timestamp) {
   auto search = mNavigationData.find(timestamp);
   if (search != mNavigationData.end()) {
     return search->second;
@@ -108,31 +109,31 @@ ImageBlock<CameraType, ImageType, ObjectPointType,
   }
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-unsigned int ImageBlock<CameraType, ImageType, ObjectPointType,
-                        DataType>::getNumberOfCameras() const {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+unsigned int ImageBlock<TCameraType, TImageType, TObjectPointType,
+                        TDataType>::getNumberOfCameras() const {
   return mCameras.size();
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-unsigned int ImageBlock<CameraType, ImageType, ObjectPointType,
-                        DataType>::getNumberOfImages() const {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+unsigned int ImageBlock<TCameraType, TImageType, TObjectPointType,
+                        TDataType>::getNumberOfImages() const {
   return mImages.size();
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-unsigned int ImageBlock<CameraType, ImageType, ObjectPointType,
-                        DataType>::getNumberOfObjectPoints() const {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+unsigned int ImageBlock<TCameraType, TImageType, TObjectPointType,
+                        TDataType>::getNumberOfObjectPoints() const {
   return mObjectPoints.size();
 }
 
-template <typename CameraType, typename ImageType, typename ObjectPointType,
-          typename DataType>
-unsigned int ImageBlock<CameraType, ImageType, ObjectPointType,
-                        DataType>::getNumberOfNavigationMeasurements() const {
+template <typename TCameraType, typename TImageType, typename TObjectPointType,
+          typename TDataType>
+unsigned int ImageBlock<TCameraType, TImageType, TObjectPointType,
+                        TDataType>::getNumberOfNavigationMeasurements() const {
   return mNavigationData.size();
 }
 

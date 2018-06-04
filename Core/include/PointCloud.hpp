@@ -1,9 +1,9 @@
 #include "PointCloud.h"
 
 namespace Core {
-template <typename PointType>
-bool PointCloud<PointType>::addPoint(const std::string &pointId,
-                                     const PointType &point) {
+template <typename TPointType>
+bool PointCloud<TPointType>::addPoint(const std::string &pointId,
+                                      const TPointType &point) {
   if (mPoints.count(pointId) != 0) {
     return false;
   } else {
@@ -12,8 +12,8 @@ bool PointCloud<PointType>::addPoint(const std::string &pointId,
   }
 }
 
-template <typename PointType>
-bool PointCloud<PointType>::deletePoint(const std::string &pointId) {
+template <typename TPointType>
+bool PointCloud<TPointType>::deletePoint(const std::string &pointId) {
   auto search = mPoints.find(pointId);
   if (search != mPoints.end()) {
     mPoints.erase(search);
@@ -23,9 +23,9 @@ bool PointCloud<PointType>::deletePoint(const std::string &pointId) {
   return true;
 }
 
-template <typename PointType>
-const PointType &
-PointCloud<PointType>::getPoint(const std::string &pointId) const {
+template <typename TPointType>
+const TPointType &
+PointCloud<TPointType>::getPoint(const std::string &pointId) const {
   auto search = mPoints.find(pointId);
   if (search != mPoints.end()) {
     return search->second;
@@ -34,8 +34,8 @@ PointCloud<PointType>::getPoint(const std::string &pointId) const {
   }
 }
 
-template <typename PointType>
-PointType &PointCloud<PointType>::getPoint(const std::string &pointId) {
+template <typename TPointType>
+TPointType &PointCloud<TPointType>::getPoint(const std::string &pointId) {
   auto search = mPoints.find(pointId);
   if (search != mPoints.end()) {
     return search->second;
@@ -44,14 +44,14 @@ PointType &PointCloud<PointType>::getPoint(const std::string &pointId) {
   }
 }
 
-template <typename PointType>
-unsigned int PointCloud<PointType>::getNumberOfPoints() const {
+template <typename TPointType>
+unsigned int PointCloud<TPointType>::getNumberOfPoints() const {
   return mPoints.size();
 }
 
-template <typename PointType>
-const std::unordered_map<std::string, PointType> &
-PointCloud<PointType>::getPoints() const {
+template <typename TPointType>
+const std::unordered_map<std::string, TPointType> &
+PointCloud<TPointType>::getPoints() const {
   return mPoints;
 }
 } // namespace Core

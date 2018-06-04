@@ -1,45 +1,46 @@
 #include "ExteriorOrientation.h"
 namespace Core {
-template <typename DataType>
-void ExteriorOrientation<DataType>::SetTranslation(
-    const DataType tx, const DataType ty, const DataType tz,
-    const Eigen::Matrix<DataType, 3, 3> &var) {
+template <typename TDataType>
+void ExteriorOrientation<TDataType>::SetTranslation(
+    const TDataType tx, const TDataType ty, const TDataType tz,
+    const Eigen::Matrix<TDataType, 3, 3> &var) {
   mTranslation =
-      Point<DataType, 3>(Eigen::Matrix<DataType, 3, 1>{tx, ty, tz}, var);
+      Point<TDataType, 3>(Eigen::Matrix<TDataType, 3, 1>{tx, ty, tz}, var);
 }
 
-template <typename DataType>
-void ExteriorOrientation<DataType>::SetRotation(
-    const DataType omega, const DataType phi, const DataType kappa,
-    const bool inDegreeFlag, const Eigen::Matrix<DataType, 3, 3> &var) {
+template <typename TDataType>
+void ExteriorOrientation<TDataType>::SetRotation(
+    const TDataType omega, const TDataType phi, const TDataType kappa,
+    const bool inDegreeFlag, const Eigen::Matrix<TDataType, 3, 3> &var) {
   isInDegree = inDegreeFlag;
-  mRotation =
-      Point<DataType, 3>(Eigen::Matrix<DataType, 3, 1>{omega, phi, kappa}, var);
+  mRotation = Point<TDataType, 3>(
+      Eigen::Matrix<TDataType, 3, 1>{omega, phi, kappa}, var);
 }
 
-template <typename DataType>
-const Point<DataType, 3> &
-ExteriorOrientation<DataType>::getTranslation() const {
+template <typename TDataType>
+const Point<TDataType, 3> &
+ExteriorOrientation<TDataType>::getTranslation() const {
   return mTranslation;
 }
 
-template <typename DataType>
-Point<DataType, 3> &ExteriorOrientation<DataType>::getTranslation() {
+template <typename TDataType>
+Point<TDataType, 3> &ExteriorOrientation<TDataType>::getTranslation() {
   return mTranslation;
 }
 
-template <typename DataType>
-const Point<DataType, 3> &ExteriorOrientation<DataType>::getRotation() const {
+template <typename TDataType>
+const Point<TDataType, 3> &ExteriorOrientation<TDataType>::getRotation() const {
   return mRotation;
 }
 
-template <typename DataType>
-Point<DataType, 3> &ExteriorOrientation<DataType>::getRotation() {
+template <typename TDataType>
+Point<TDataType, 3> &ExteriorOrientation<TDataType>::getRotation() {
   return mRotation;
 }
 
-template <typename DataType>
-Point<DataType, 3> ExteriorOrientation<DataType>::getRotationInDegrees() const {
+template <typename TDataType>
+Point<TDataType, 3>
+ExteriorOrientation<TDataType>::getRotationInDegrees() const {
   if (isInDegree) {
     return mRotation;
   } else {
@@ -47,8 +48,9 @@ Point<DataType, 3> ExteriorOrientation<DataType>::getRotationInDegrees() const {
   }
 }
 
-template <typename DataType>
-Point<DataType, 3> ExteriorOrientation<DataType>::getRotationInRadians() const {
+template <typename TDataType>
+Point<TDataType, 3>
+ExteriorOrientation<TDataType>::getRotationInRadians() const {
   if (isInDegree) {
     return ConvertRotationToRadians(mRotation);
   } else {
@@ -56,48 +58,48 @@ Point<DataType, 3> ExteriorOrientation<DataType>::getRotationInRadians() const {
   }
 }
 
-template <typename DataType>
-void ExteriorOrientation<DataType>::ConvertRotationToDegrees(
-    Eigen::Matrix<DataType, 3, 1> &rotation) {
-  DataType conversionFactor = static_cast<DataType>(RadiansToDegree);
+template <typename TDataType>
+void ExteriorOrientation<TDataType>::ConvertRotationToDegrees(
+    Eigen::Matrix<TDataType, 3, 1> &rotation) {
+  TDataType conversionFactor = static_cast<TDataType>(RadiansToDegree);
   rotation[0] = rotation[0] * conversionFactor;
   rotation[1] = rotation[1] * conversionFactor;
   rotation[2] = rotation[2] * conversionFactor;
 }
 
-template <typename DataType>
-Eigen::Matrix<DataType, 3, 1>
-ExteriorOrientation<DataType>::ConvertRotationToDegrees(
-    const Eigen::Matrix<DataType, 3, 1> &rotation) {
+template <typename TDataType>
+Eigen::Matrix<TDataType, 3, 1>
+ExteriorOrientation<TDataType>::ConvertRotationToDegrees(
+    const Eigen::Matrix<TDataType, 3, 1> &rotation) {
   // Make a copy of rotation
   auto copyRotation = rotation;
   ConvertRotationToDegrees(copyRotation);
   return copyRotation;
 }
 
-template <typename DataType>
-void ExteriorOrientation<DataType>::ConvertRotationToRadians(
-    Eigen::Matrix<DataType, 3, 1> &rotation) {
-  DataType conversionFactor = static_cast<DataType>(DegreeToRadians);
+template <typename TDataType>
+void ExteriorOrientation<TDataType>::ConvertRotationToRadians(
+    Eigen::Matrix<TDataType, 3, 1> &rotation) {
+  TDataType conversionFactor = static_cast<TDataType>(DegreeToRadians);
   rotation[0] = rotation[0] * conversionFactor;
   rotation[1] = rotation[1] * conversionFactor;
   rotation[2] = rotation[2] * conversionFactor;
 }
 
-template <typename DataType>
-Eigen::Matrix<DataType, 3, 1>
-ExteriorOrientation<DataType>::ConvertRotationToRadians(
-    const Eigen::Matrix<DataType, 3, 1> &rotation) {
+template <typename TDataType>
+Eigen::Matrix<TDataType, 3, 1>
+ExteriorOrientation<TDataType>::ConvertRotationToRadians(
+    const Eigen::Matrix<TDataType, 3, 1> &rotation) {
   // Make a copy of rotation
   auto copyRotation = rotation;
   ConvertRotationToRadians(copyRotation);
   return copyRotation;
 }
 
-template <typename DataType>
-bool ExteriorOrientation<DataType>::convertRotationToDegrees() {
+template <typename TDataType>
+bool ExteriorOrientation<TDataType>::convertRotationToDegrees() {
   if (!isInDegree) {
-    DataType conversionFactor = static_cast<DataType>(RadiansToDegree);
+    TDataType conversionFactor = static_cast<TDataType>(RadiansToDegree);
     mRotation[0] = mRotation[0] * conversionFactor;
     mRotation[1] = mRotation[1] * conversionFactor;
     mRotation[2] = mRotation[2] * conversionFactor;
@@ -108,10 +110,10 @@ bool ExteriorOrientation<DataType>::convertRotationToDegrees() {
   return false;
 }
 
-template <typename DataType>
-bool ExteriorOrientation<DataType>::convertRotationToRadians() {
+template <typename TDataType>
+bool ExteriorOrientation<TDataType>::convertRotationToRadians() {
   if (isInDegree) {
-    DataType conversionFactor = static_cast<DataType>(DegreeToRadians);
+    TDataType conversionFactor = static_cast<TDataType>(DegreeToRadians);
     mRotation[0] = mRotation[0] * conversionFactor;
     mRotation[1] = mRotation[1] * conversionFactor;
     mRotation[2] = mRotation[2] * conversionFactor;
@@ -122,22 +124,22 @@ bool ExteriorOrientation<DataType>::convertRotationToRadians() {
   return false;
 }
 
-template <typename DataType>
-Eigen::Matrix<DataType, 3, 3>
-ExteriorOrientation<DataType>::CreateRotationMatrixFromEluerAnglesInRadians(
-    const Eigen::Matrix<DataType, 3, 1> &rotationAngles) {
+template <typename TDataType>
+Eigen::Matrix<TDataType, 3, 3>
+ExteriorOrientation<TDataType>::CreateRotationMatrixFromEluerAnglesInRadians(
+    const Eigen::Matrix<TDataType, 3, 1> &rotationAngles) {
   // Note: This rotation matrix (i.e., R matrix) describes the rotation from the
   // camera to the mapping coordinate system.If the rotation from the mapping to
   // the camera (i.e., M matrix) is needed, the transpose of this matrix has to
   // be used.
-  const DataType cosw = std::cos(rotationAngles[0]);
-  const DataType sinw = std::sin(rotationAngles[0]);
-  const DataType cosp = std::cos(rotationAngles[1]);
-  const DataType sinp = std::sin(rotationAngles[1]);
-  const DataType cosk = std::cos(rotationAngles[2]);
-  const DataType sink = std::sin(rotationAngles[2]);
+  const TDataType cosw = std::cos(rotationAngles[0]);
+  const TDataType sinw = std::sin(rotationAngles[0]);
+  const TDataType cosp = std::cos(rotationAngles[1]);
+  const TDataType sinp = std::sin(rotationAngles[1]);
+  const TDataType cosk = std::cos(rotationAngles[2]);
+  const TDataType sink = std::sin(rotationAngles[2]);
 
-  Eigen::Matrix<DataType, 3, 3> rotationMatrix;
+  Eigen::Matrix<TDataType, 3, 3> rotationMatrix;
 
   // 1st row
   rotationMatrix(0, 0) = cosp * cosk;
@@ -155,35 +157,35 @@ ExteriorOrientation<DataType>::CreateRotationMatrixFromEluerAnglesInRadians(
   return rotationMatrix;
 }
 
-template <typename DataType>
-Eigen::Matrix<DataType, 3, 3>
-ExteriorOrientation<DataType>::CreateRotationMatrixFromEulerAnglesInDegrees(
-    const Eigen::Matrix<DataType, 3, 1> &rotationAngles) {
-  Eigen::Matrix<DataType, 3, 1> anglesInRadians =
+template <typename TDataType>
+Eigen::Matrix<TDataType, 3, 3>
+ExteriorOrientation<TDataType>::CreateRotationMatrixFromEulerAnglesInDegrees(
+    const Eigen::Matrix<TDataType, 3, 1> &rotationAngles) {
+  Eigen::Matrix<TDataType, 3, 1> anglesInRadians =
       rotationAngles * DegreeToRadians;
   return CreateRotationMatrixFromEluerAnglesInRadians(anglesInRadians);
 }
 
-template <typename DataType>
-Eigen::Matrix<DataType, 3, 1>
-ExteriorOrientation<DataType>::GetEulerAnglesInRadiansFromRotationMatrix(
-    const Eigen::Matrix<DataType, 3, 3> &rotationMatrix) {
+template <typename TDataType>
+Eigen::Matrix<TDataType, 3, 1>
+ExteriorOrientation<TDataType>::GetEulerAnglesInRadiansFromRotationMatrix(
+    const Eigen::Matrix<TDataType, 3, 3> &rotationMatrix) {
   // Note: phi has to be in the range of [-pi/2, pi/2].
-  const DataType phi = std::asin(rotationMatrix(0, 2));
+  const TDataType phi = std::asin(rotationMatrix(0, 2));
   // Compute cos(Phi)
-  const DataType cosp = std::cos(phi);
-  const DataType omega =
+  const TDataType cosp = std::cos(phi);
+  const TDataType omega =
       std::atan2(-rotationMatrix(1, 2) / cosp, rotationMatrix(2, 2) / cosp);
-  const DataType kappa =
+  const TDataType kappa =
       std::atan2(-rotationMatrix(0, 1) / cosp, rotationMatrix(0, 0) / cosp);
 
-  return Eigen::Matrix<DataType, 3, 1>{omega, phi, kappa};
+  return Eigen::Matrix<TDataType, 3, 1>{omega, phi, kappa};
 }
 
-template <typename DataType>
-Eigen::Matrix<DataType, 3, 1>
-ExteriorOrientation<DataType>::GetEulerAnglesInDegreesFromRotationMatrix(
-    const Eigen::Matrix<DataType, 3, 3> &rotationMatrix) {
+template <typename TDataType>
+Eigen::Matrix<TDataType, 3, 1>
+ExteriorOrientation<TDataType>::GetEulerAnglesInDegreesFromRotationMatrix(
+    const Eigen::Matrix<TDataType, 3, 3> &rotationMatrix) {
 
   return GetEulerAnglesInRadiansFromRotationMatrix(rotationMatrix) *
          RadiansToDegree;

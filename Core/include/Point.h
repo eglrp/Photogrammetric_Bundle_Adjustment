@@ -32,8 +32,8 @@ typedef Eigen::Matrix<int, 3, 1> PointXYZi;
  * This is a general point class for an N x 1 vector with the corresponding
  * variance-covariance matrix
  */
-template <typename DataType, int Dim>
-class Point : public Eigen::Matrix<DataType, Dim, 1> {
+template <typename TDataType, int Dim>
+class Point : public Eigen::Matrix<TDataType, Dim, 1> {
 public:
   /// Default constructor
   Point() = default;
@@ -44,11 +44,11 @@ public:
    * Note: In current implementation, we use dense matrix for
    * variance-covaraince of the point. This can be inefficient when N is large.
    */
-  Point(const Eigen::Matrix<DataType, Dim, 1> &vec,
-        const Eigen::Matrix<DataType, Dim, Dim> &var =
-            Eigen::Matrix<DataType, Dim, Dim>::Identity(Dim, Dim));
+  Point(const Eigen::Matrix<TDataType, Dim, 1> &vec,
+        const Eigen::Matrix<TDataType, Dim, Dim> &var =
+            Eigen::Matrix<TDataType, Dim, Dim>::Identity(Dim, Dim));
   /// N x N varaiance-covariance matrix
-  Eigen::Matrix<DataType, Dim, Dim> covariance;
+  Eigen::Matrix<TDataType, Dim, Dim> covariance;
 };
 
 /**

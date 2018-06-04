@@ -23,6 +23,7 @@ set(CoreLib_SRC
     include/ExteriorOrientation.h include/ExteriorOrientation.hpp
     include/Image.h include/Image.hpp
     include/ImageBlock.h include/ImageBlock.hpp
+    include/InteriorOrientation.h include/InteriorOrientation.hpp
     include/Point.h include/Point.hpp
     include/PointCloud.h include/PointCloud.hpp
     include/RandomNumber.h include/RandomNumber.hpp
