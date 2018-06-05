@@ -98,4 +98,17 @@ InteriorOrientation<TDataType, Size>::ConvertImageCoordinatesToPixel(
   return Eigen::Matrix<TDataType, 2, 1>(row, col);
 }
 
+template <typename TDataType, int Size>
+const TDataType *InteriorOrientation<TDataType, Size>::convertToArray() {
+  TDataType *params = new TDataType[3 + Size];
+  // Assign xp, yp, c
+  params[0] = xyc[0];
+  params[1] = xyc[1];
+  params[2] = xyc[2];
+  // Assign distortion parameters
+  for (unsigned int i = 0; i < Size; ++i) {
+    params[3 + i] = distortionParameters[i];
+  }
+  return params;
+}
 } // namespace Core

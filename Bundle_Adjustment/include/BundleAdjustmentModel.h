@@ -15,19 +15,19 @@ public:
   ~BundleAdjustmentModel() = default;
 
   /**
-   * This function computes the re-projection errors of an image point through
+   * This function computes the back-projection of an object point through
    * collinearity model
    * @param[in] cameraIOPs A (3 + n) x 1 array containing IOPs of the utilized
    * cameras (i.e., xp, yp, c and n distortion parameters)
    * @param[in] objectPoint A 3 x 1 array containing object point coordinates
-   * @param[in] bodyFrameEOPs A 6 x 1 array containing the eops of the body
-   * frame at each imaging epoch (Note: If POS unit is onboard the platform, the
-   * EOPs of the body frame is defined by the GNSS/INS measurements. Otherwise,
-   * the eops of the body frame is defined at the reference camera of the
+   * @param[in] bodyFrameParams A 6 x 1 array containing the eops of the body
+   * frame at each imaging epoch (Note: If a direct geo-referencing unit is
+   * onboard, the body frame is defined at the center of GNSS/INS unit.
+   * Otherwise, the the body frame is defined at the reference camera of the
    * platform)
    * @param[in] refCameraToBodyFrameParams A 6 x 1 array containing the relative
-   * orientation parameters (i.e., lever-arm and bore-sight angles) from the
-   * reference camera to the body frame
+   * orientation parameters from the reference camera to the body frame (i.e.,
+   * lever-arm and bore-sight angles)
    * @param[in] nonRefCameraToRefCameraParams A 6 x 1 array contaning the
    * relative orientation parameters (i.e., lever-arm and bore-sight angles)
    * from the non-reference camera to the reference one
@@ -38,15 +38,12 @@ public:
    * @param[in] distortionModelFunctor The function to compute distortions at
    * the image point with given camera IOPs
    */
-  template <typename TDataType, typename TImagePointType,
-            typename TDistortionFunctorType>
-  static void ComputeCollinearityReprojectionErrors(
-      const TDataType *const cameraIOPs, const TDataType *const objectPoint,
-      const TDataType *const bodyFrameEOPs,
+  template <typename TDataType, typename TDistortionFunctorType>
+  static void ComputeCollinearityProjection(
+      const TDataType *const objectPoint,
+      const TDataType *const bodyFrameParams,
       const TDataType *const refCameraToBodyFrameParams,
-      const TDataType *const nonRefCameraToRefCameraParams,
-      const TDataType *residuals, const TImagePointType &imagePoint,
-      TDistortionFunctorType distortionModelFunctor);
+      const TDataType *const nonRefCameraToRefCameraParams);
 
   /**
    * This is the struct containing the collinearity model for platforms equipped

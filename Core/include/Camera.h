@@ -28,6 +28,12 @@ public:
   /// Accessor of mReferenceId
   const std::string &getReferenceCameraId() const;
 
+  /**
+   * This function takes an array of camera IOPs (i.e., xp, yp, c, and
+   * distortion parameters), and computes the distortion at the input image
+   * point.
+   */
+
 private:
   /**
    * cameraId of its reference camera

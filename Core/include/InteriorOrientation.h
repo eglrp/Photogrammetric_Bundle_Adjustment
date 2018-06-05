@@ -20,8 +20,8 @@ public:
   InteriorOrientation() = default;
 
   /**
-   * This vitual function calculates distortion at a given image point Note:
-   * This function can be overriden in the corresponding camera class
+   * This function calculates distortion at a given image point.
+   * Note: It can be overridden in the derived camera class.
    * @param[in] x x ccordinates of an image point
    * @param[in] y y coordinates of an image point
    * @return A 2 x 1 vector of image distortions
@@ -32,7 +32,8 @@ public:
   /**
    * This function takes distortion-free coordinates of an image point, and
    * returns the same point after adding distortion and correcting principal
-   * offset
+   * offset.
+   * Note: It can be overridden in the derived camera class.
    * @param[in] x x ccordinates of a distortion-free image point
    * @param[in] y y coordinates of a distortion image point
    * @param[in] tolerance Tolerance to stop adding distortion (default = 1e-6)
@@ -41,7 +42,7 @@ public:
    * @return A 2 x 1 vector of image coordinates after adding distortions and
    * principal offset
    */
-  Eigen::Matrix<TDataType, 2, 1>
+  virtual Eigen::Matrix<TDataType, 2, 1>
   addDistortion(const TDataType x, const TDataType y,
                 const TDataType tolerance = 1e-6,
                 const unsigned int maxIteration = 100);
@@ -60,6 +61,20 @@ public:
    */
   Eigen::Matrix<TDataType, 2, 1>
   ConvertImageCoordinatesToPixel(const TDataType x, const TDataType y);
+
+  //  /**
+  //   * This function creates an InteriorOrientation object from the given
+  //   * TDataType array.
+  //   * Note: The number of distortion parameters have to be specified.
+  //   */
+  //  static InteriorOrientation<TDataType, Size>
+  //  Create(const TDataType *const params);
+
+  /**
+   * This function concatenates xp, yp, c and distortion parameters to a single
+   * TDataType array, and returns the pointer of this array.
+   */
+  const TDataType *convertToArray();
 
   /// Width and Height of image
   unsigned int width;
