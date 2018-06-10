@@ -62,14 +62,6 @@ public:
   Eigen::Matrix<TDataType, 2, 1>
   ConvertImageCoordinatesToPixel(const TDataType x, const TDataType y);
 
-  //  /**
-  //   * This function creates an InteriorOrientation object from the given
-  //   * TDataType array.
-  //   * Note: The number of distortion parameters have to be specified.
-  //   */
-  //  static InteriorOrientation<TDataType, Size>
-  //  Create(const TDataType *const params);
-
   /**
    * This function concatenates xp, yp, c and distortion parameters to a single
    * TDataType array, and returns the pointer of this array.
