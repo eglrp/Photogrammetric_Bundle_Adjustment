@@ -21,7 +21,7 @@ public:
    * @param[in] tz z component of the translation vector
    * @param[in] var variance-covariance matrix of the translation vector
    */
-  void SetTranslation(const TDataType tx, const TDataType ty,
+  void setTranslation(const TDataType tx, const TDataType ty,
                       const TDataType tz,
                       const Eigen::Matrix<TDataType, 3, 3> &var =
                           Eigen::Matrix<TDataType, 3, 3>::Identity(3, 3));
@@ -35,7 +35,7 @@ public:
    * @param[in] inDegreeFlag flag used to indicate the rotation is in degrees or
    * radians (True: in degrees; False: in radians)
    */
-  void SetRotation(const TDataType omega, const TDataType phi,
+  void setRotation(const TDataType omega, const TDataType phi,
                    const TDataType kappa, const bool inDegreeFlag = true,
                    const Eigen::Matrix<TDataType, 3, 3> &var =
                        Eigen::Matrix<TDataType, 3, 3>::Identity(3, 3));
@@ -65,6 +65,23 @@ public:
 
   /// Get a copy of rotation in radians
   Point<TDataType, 3> getRotationInRadians() const;
+
+  /**
+   * This funtion transforms current ExteriorOrientation to another coordinate
+   * system specified by @c transform.
+   * Specifically, if current ExteriorOrientation defines the rotation and
+   * translation from frame a to frame b (i.e., R_a_b and r_a_b), and the input
+   * ExteriorOrientation @transform descrbies the transformation from frame b to
+   * frame c (i.e., R_b_c and r_b_c), the derived ExteriorOrientation is the
+   * rotation and translation from frame a to c (i.e., R_a_c and r_a_c).
+   * R_a_c = R_b_c * R_a_c
+   * r_a_c = r_b_c + R_b_c * r_a_b
+   * @param[in] transform The coordinate system to be transformed to
+   * @return ExteriorOrientation defined in the coordinate system specified by
+   * @c transform
+   */
+  ExteriorOrientation<TDataType>
+  transformTo(const ExteriorOrientation<TDataType> &transform);
 
   /// Static function to convert rotation angles to radians
   static void

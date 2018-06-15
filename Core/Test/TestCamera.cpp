@@ -13,10 +13,10 @@ TEST(Image, ConstructFrameCamera) {
   Core::RandomDoubleGenerator randomDoubleGenerator(0.0, 1.0);
   // Prepare EOPs
   Core::ExteriorOrientation<DataType> mountingParams;
-  mountingParams.SetTranslation(randomDoubleGenerator.getRandomNumber(),
+  mountingParams.setTranslation(randomDoubleGenerator.getRandomNumber(),
                                 randomDoubleGenerator.getRandomNumber(),
                                 randomDoubleGenerator.getRandomNumber());
-  mountingParams.SetRotation(90.0, 30.0, 40.0);
+  mountingParams.setRotation(90.0, 30.0, 40.0);
   // Prepare IOPs
   Core::InteriorOrientation<DataType, 4> iops;
   iops.width = 2000;
@@ -51,7 +51,7 @@ TEST(Image, ConstructFrameCamera) {
             extractedMountingParams.getRotation()[2]);
 
   // Change translation to (0.1, 0.2, 0.3)
-  extractedMountingParams.SetTranslation(0.1, 0.2, 0.3);
+  extractedMountingParams.setTranslation(0.1, 0.2, 0.3);
   // Get updated mounting parameters
   const auto &updatedMountingParams = frameCamera.getMountingParameters();
   EXPECT_EQ(updatedMountingParams.getTranslation()[0], 0.1);

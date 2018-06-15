@@ -1,7 +1,7 @@
 #include "ExteriorOrientation.h"
 namespace Core {
 template <typename TDataType>
-void ExteriorOrientation<TDataType>::SetTranslation(
+void ExteriorOrientation<TDataType>::setTranslation(
     const TDataType tx, const TDataType ty, const TDataType tz,
     const Eigen::Matrix<TDataType, 3, 3> &var) {
   mTranslation =
@@ -9,7 +9,7 @@ void ExteriorOrientation<TDataType>::SetTranslation(
 }
 
 template <typename TDataType>
-void ExteriorOrientation<TDataType>::SetRotation(
+void ExteriorOrientation<TDataType>::setRotation(
     const TDataType omega, const TDataType phi, const TDataType kappa,
     const bool inDegreeFlag, const Eigen::Matrix<TDataType, 3, 3> &var) {
   isInDegree = inDegreeFlag;
@@ -56,6 +56,30 @@ ExteriorOrientation<TDataType>::getRotationInRadians() const {
   } else {
     return mRotation;
   }
+}
+
+template <typename TDataType>
+ExteriorOrientation<TDataType> ExteriorOrientation<TDataType>::transformTo(
+    const ExteriorOrientation<TDataType> &transform) {
+  // Compute rotation: R_a_c = R_b_c * R_a_b
+  Eigen::Matrix<TDataType, 3, 3> R_a_b =
+      CreateRotationMatrixFromEulerAnglesInDegrees(
+          this->getRotationInDegrees());
+  Eigen::Matrix<TDataType, 3, 3> R_b_c =
+      CreateRotationMatrixFromEulerAnglesInDegrees(
+          transform.getRotationInDegrees());
+  Eigen::Matrix<TDataType, 3, 3> R_a_c = R_b_c * R_a_b;
+  auto eulerAngles = GetEulerAnglesInDegreesFromRotationMatrix(R_a_c);
+
+  // Compute translation: r_a_c = r_b_c + R_b_c * r_a_b
+  Eigen::Matrix<TDataType, 3, 1> r_a_c =
+      transform.getTranslation() + R_b_c * this->getTranslation();
+
+  ExteriorOrientation<TDataType> newExteriorOrientation;
+  newExteriorOrientation.setRotation(eulerAngles[0], eulerAngles[1],
+                                     eulerAngles[2]);
+  newExteriorOrientation.setTranslation(r_a_c[0], r_a_c[1], r_a_c[2]);
+  return newExteriorOrientation;
 }
 
 template <typename TDataType>

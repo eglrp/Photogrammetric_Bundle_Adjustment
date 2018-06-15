@@ -98,11 +98,11 @@ TEST(ImageBlock, AddNavigationDataToImageBlock) {
   for (unsigned int navigationId = 0;
        navigationId < numberOfNavigationMeasurements; ++navigationId) {
     NavigationType navigationMeasurement;
-    navigationMeasurement.SetTranslation(
+    navigationMeasurement.setTranslation(
         0.1 * static_cast<double>(navigationId),
         0.2 * static_cast<double>(navigationId),
         0.3 * static_cast<double>(navigationId));
-    navigationMeasurement.SetRotation(45.0, 30.0, 90.0);
+    navigationMeasurement.setRotation(45.0, 30.0, 90.0);
     imageBlock.addNavigationData(
         navigationId, std::make_shared<NavigationType>(navigationMeasurement));
   }
